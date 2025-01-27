@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>新年主页面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+  <!-- 引入 Fireworks.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+  <style>
+    /* 基本样式重置 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, #f00, #900); /* 红色渐变 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .fireworks {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; 
+    }
+    /* 按钮 */
+    #startFireworksBtn {
+      z-index: 10;
+      background: #FFD700;
+      color: #900;
+      font-size: 1.2rem;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    #startFireworksBtn:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 用于放置烟花的层 -->
+    <div class="fireworks"></div>
+    <!-- 触发按钮 -->
+    <button id="startFireworksBtn">开启新年烟花</button>
+  </div>
+
+  <script>
+    // 1. 获取烟花容器
+    const fireworksContainer = document.querySelector('.fireworks');
+
+    // 2. 创建烟花实例（新版写法：Fireworks.default）
+    const fireworks = new Fireworks.default(fireworksContainer, {
+      speed: 3,
+      particles: 60,
+      hue: { min: 0, max: 345 },
+      delay: { min: 15, max: 15 },
+      trace: 3,
+      explosion: 5,
+      autoresize: true
+    });
+
+    // 3. 按钮点击后，先播放烟花，再延迟跳转到第二页
+    const startBtn = document.getElementById('startFireworksBtn');
+    startBtn.addEventListener('click', () => {
+      fireworks.start();              // 开启烟花
+      startBtn.style.display = 'none';// 隐藏按钮
+      // 播放2秒烟花后跳转
+      setTimeout(() => {
+        window.location.href = 'page2.html';
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
