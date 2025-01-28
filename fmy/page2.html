@@ -48,14 +48,14 @@
     .crawl {
       position: relative;
       transform-origin: 50% 100%;
-      animation: crawl 15s linear forwards; /* 30秒，结束后保持终态 */
+      animation: crawl 10s linear forwards; /* 10秒，结束后保持终态 */
     }
     @keyframes crawl {
         0% {
         transform: rotateX(30deg) translateY(100%);
         opacity: 1;
         }
-        80% {
+        95% {
         /* 大部分时间正常滚动且可见 */
         transform: rotateX(30deg) translateY(-180%);
         opacity: 1;
