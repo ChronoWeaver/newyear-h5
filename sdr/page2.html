@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>新年祝福页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+  <!-- Fireworks.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+  <style>
+    /* 基础设定 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000; /* 深色背景适合星战动画 */
+      color: #FFD700;   /* 文字金色 */
+      font-family: 'Microsoft YaHei', Arial, sans-serif;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* 烟花层 */
+    .fireworks {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ========== 星战滚动字幕 ========== */
+    .star-wars {
+      position: absolute;
+      width: 80%; 
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      perspective: 300px;
+      overflow: hidden;
+      z-index: 2;
+    }
+    .crawl {
+      position: relative;
+      transform-origin: 50% 100%;
+      animation: crawl 15s linear forwards; /* 30秒，结束后保持终态 */
+    }
+    @keyframes crawl {
+        0% {
+        transform: rotateX(30deg) translateY(100%);
+        opacity: 1;
+        }
+        80% {
+        /* 大部分时间正常滚动且可见 */
+        transform: rotateX(30deg) translateY(-180%);
+        opacity: 1;
+        }
+        100% {
+        /* 最后10%时间淡出并完全滚出 */
+        transform: rotateX(30deg) translateY(-200%);
+        opacity: 0;
+        }
+    }
+    .crawl p {
+      text-align: center;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== 静态内容区域：文字 + 照片一起居中 ========== */
+    .static-container {
+      /* 关键修正：只留 display: none;，不要再写 display: flex; */
+      display: none; 
+      position: absolute; 
+      top: 0; left: 0;
+      width: 100%; 
+      height: 100%;
+      /* 用 Flex 布局进行居中 */
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      z-index: 3;
+    }
+    /* 让最终显示时，我们会用 JS 改成 staticContainer.style.display = 'flex' */
+
+    /* 静态文本 */
+    .static-text {
+      max-width: 600px;
+      margin: 0 20px;   /* 两边留些间距 */
+      text-align: center;
+      margin-bottom: 2rem; /* 和照片留一点距离 */
+    }
+    .static-text h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #FFD700;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .static-text p {
+      text-indent: 2em;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    /* 照片 */
+    .friend-photo {
+      width: 200px;
+      height: 150px;
+      border: 3px solid #FFD700;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 烟花背景 -->
+    <div class="fireworks"></div>
+
+    <!-- 星战字幕容器 -->
+    <div class="star-wars" id="starWars">
+      <div class="crawl" id="crawlText">
+        <p>🎤 新春佳节贺语来，祝福朋友乐开怀！ 🎤</p>
+        <p>唱歌旅行样样行，live house里最有型！</p>
+        <p>指尖点出发财路，岁月如歌莫停步；</p>  
+        <p>万里山河尽收眼，心怀诗意天地宽。</p>
+        <p>九七生辰刚过完，二五新年又上岸!</p>
+        <p>好运追随不嫌烦，财运事业齐相伴！</p>
+        <p>愿我们在新的一年里常聚常乐，</p>
+        <p>一起分享生活的点滴，</p>
+        <p>一起见证更多的精彩瞬间！</p>
+        <p>新春快乐，朋友情谊永不变！</p>
+      </div>
+    </div>
+
+    <!-- 静态内容容器：文本 + 照片(居中) -->
+    <div class="static-container" id="staticContainer">
+      <!-- 静态文本 -->
+      <div class="static-text">
+        <p>🎤 新春佳节贺语来，祝福朋友乐开怀！ 🎤<p>
+        <p>唱歌旅行样样行，live house里最有型！<p>
+        <p>指尖点出发财路，岁月如歌莫停步；</p>  
+        <p>万里山河尽收眼，心怀诗意天地宽。</p>
+        <p>九七生辰刚过完，二五新年又上岸!</p>
+        <p>好运追随不嫌烦，财运事业齐相伴！</p>
+        <p>愿我们在新的一年里常聚常乐，</p>
+        <p>一起分享生活的点滴，</p>
+        <p>一起见证更多的精彩瞬间！</p>
+        <p>新春快乐，朋友情谊永不变！</p>
+      </div>
+      <!-- 照片(在文字下面) -->
+      <img src="SDR.jpg" alt="friend" class="friend-photo" id="friendPhoto" />
+    </div>
+  </div>
+
+  <script>
+    // 1. 启动烟花
+    const fwContainer = document.querySelector('.fireworks');
+    const fireworks = new Fireworks.default(fwContainer, {
+      hue: { min: 0, max: 345 },
+      speed: 3,
+      particles: 70,
+      trace: 3,
+      explosion: 5,
+      autoresize: true
+    });
+    fireworks.start();
+
+    // 2. 监听字幕动画结束
+    const starWarsEl = document.getElementById('starWars');
+    const crawlText = document.getElementById('crawlText');
+    const staticContainer = document.getElementById('staticContainer');
+
+    crawlText.addEventListener('animationend', () => {
+      // 隐藏星战字幕
+      starWarsEl.style.display = 'none';
+      // 显示静态内容(文本 + 照片)：把 display 改成 flex
+      staticContainer.style.display = 'flex';
+    });
+  </script>
+</body>
+</html>
